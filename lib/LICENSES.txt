@@ -1,0 +1,22 @@
+Dependencias incluidas para uso completamente offline
+====================================================
+
+pdf-lib 1.17.1
+Origen: paquete oficial pdf-lib@1.17.1 del registro npm.
+Archivo: pdf-lib.min.js (distribución UMD sin modificar).
+Licencia: MIT. Texto completo en pdf-lib.LICENSE.txt.
+Proyecto: https://github.com/Hopding/pdf-lib
+SHA-256 (pdf-lib.min.js):
+0f9a5cad07941f0826586c94e089d89b918c46e5c17cf2d5a3c6f666e3bc694f
+
+JSZip 3.10.2
+Origen: paquete oficial jszip@3.10.2 del registro npm.
+Archivo: jszip.min.js (distribución UMD sin modificar).
+Licencia: MIT o GPLv3; esta distribución utiliza la opción MIT.
+Texto completo en jszip.LICENSE.markdown.
+Proyecto: https://github.com/Stuk/jszip
+SHA-256 (jszip.min.js):
+7f839b2d4688b845c105ebf5d2f9803075f91ea0fe72bdaac176c3a04dd3d2c1
+
+Estos enlaces documentan la procedencia. La aplicación no los visita
+ni descarga dependencias al ejecutarse.
