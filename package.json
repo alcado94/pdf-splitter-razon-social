@@ -1,0 +1,13 @@
+{
+  "name": "pdf-splitter-razon-social",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fragmentador PDF local y portable por razón social",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:browser": "node tests/browser-smoke.cjs"
+  }
+}
