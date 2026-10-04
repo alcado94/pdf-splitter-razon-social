@@ -419,7 +419,10 @@ async function main() {
     screenshotDir = actualDir;
   }
   const fixture = await createGroupingFixture();
-  browser = await playwright.chromium.launch({ channel: 'chromium', headless: true });
+  browser = await playwright.chromium.launch({
+    ...(process.env.CHROMIUM_EXECUTABLE ? { executablePath: process.env.CHROMIUM_EXECUTABLE } : { channel: 'chromium' }),
+    headless: true,
+  });
   report.browser = `Chromium ${browser.version()} (full Chromium, new headless mode)`;
   console.log(`${report.browser}; Playwright ${report.playwright}; Node ${report.node}`);
   try {

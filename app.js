@@ -666,4 +666,11 @@
   });
   globalThis.addEventListener('pagehide', cleanupDownloads);
   checkDependencies();
+
+  // file:// remains usable; a service worker needs an HTTP(S) origin.
+  if (location.protocol !== 'file:' && globalThis.isSecureContext && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {
+      console.warn('[PDFSplitter]', { stage: 'offline', code: 'SERVICE_WORKER_UNAVAILABLE' });
+    });
+  }
 }());

@@ -2,6 +2,8 @@
 
 `browser-smoke.cjs` uses a real Chromium browser to open the absolute `file://`
 URL of `index.html`, with an offline context and the application's CSP intact.
+`pwa-smoke.cjs` serves the app at a project subpath on localhost, waits for the
+service worker, goes offline, reloads, and checks a real PDF/ZIP download.
 Playwright is test tooling only; no npm dependencies are added to the runtime app.
 
 ## Temporary tooling and execution
@@ -16,12 +18,17 @@ PLAYWRIGHT_BROWSERS_PATH=/tmp/opencode/browsers TMPDIR=/tmp/opencode \
 PLAYWRIGHT_MODULE=/tmp/opencode/node_modules/playwright \
   PLAYWRIGHT_BROWSERS_PATH=/tmp/opencode/browsers TMPDIR=/tmp/opencode \
   node tests/browser-smoke.cjs
+PLAYWRIGHT_MODULE=/tmp/opencode/node_modules/playwright \
+  PLAYWRIGHT_BROWSERS_PATH=/tmp/opencode/browsers TMPDIR=/tmp/opencode \
+  node tests/pwa-smoke.cjs
 ```
 
 If Playwright is already available to Node, omit `PLAYWRIGHT_MODULE`; the script
 defaults to `require('playwright')`. The script uses full Chromium's new headless
 mode (`channel: 'chromium'`), not headless shell. Missing OS libraries are reported
 by Playwright at launch; browser installation itself does not install OS packages.
+An installed Chromium can also be used with `CHROMIUM_EXECUTABLE=/usr/bin/chromium`
+and a temporary Playwright installation.
 
 To retain review screenshots, verify an existing directory under `/tmp/opencode`
 and set `BROWSER_SCREENSHOT_DIR` to it. For example, append
@@ -53,6 +60,9 @@ temporary download paths and removed when their browser contexts close.
   events and HTTP(S)/WS(S) attempts are collected. Network attempts are also
   rejected. Expected warning stage/code objects are verified for invalid input;
   unexpected warnings fail their scenario.
+- From the HTTP project subpath, the PWA smoke verifies the manifest and icons,
+  registered service worker, application-only cached assets, offline navigation,
+  and a generated ZIP with a usable PDF after disconnecting the browser.
 
 Each scenario runs in a fresh offline context, so independent checks continue
 after a failure. Keyboard activation and cancellation use independent contexts

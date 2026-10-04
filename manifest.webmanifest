@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Separador de PDF por razón social",
+  "short_name": "Separador PDF",
+  "description": "Separa páginas de un PDF por razón social en tu ordenador.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fa",
+  "theme_color": "#176b58",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

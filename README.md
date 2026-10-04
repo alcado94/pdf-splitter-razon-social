@@ -1,8 +1,9 @@
 # PDF Splitter por Razón Social
 
-Una herramienta web portable para separar las páginas de un PDF por empresa.
-Se ejecuta directamente en tu navegador: **sin instalación, servidor ni conexión
-a Internet**. Los documentos se procesan en memoria dentro de tu ordenador.
+Una herramienta web para separar las páginas de un PDF por empresa. Puedes usarla
+abriendo `index.html` sin instalación ni servidor, o instalarla como aplicación
+de escritorio desde GitHub Pages. Los documentos se procesan en memoria dentro
+de tu ordenador, incluso sin conexión.
 
 ## Uso
 
@@ -20,6 +21,24 @@ documento.
 
 **Procesar otro PDF** libera el documento anterior y permite seleccionar otro
 archivo, incluido el mismo archivo de nuevo.
+
+## Instalación como aplicación de escritorio
+
+Cuando la versión de GitHub Pages esté publicada, abre
+`https://alcado94.github.io/pdf-splitter-razon-social/` en Chromium o Edge con
+conexión. Usa la opción **Instalar** del navegador para añadirla al escritorio.
+Tras la primera carga completa, podrás abrirla y procesar documentos sin
+conexión. La instalación requiere HTTPS; abrir `index.html` mediante `file://`
+sigue siendo la alternativa portable y no necesita instalar nada.
+
+Para publicar este repositorio en GitHub Pages, selecciona la rama `main` y la
+carpeta `/ (root)` como origen. Los recursos se sirven sin compilación. El
+manifiesto y el service worker utilizan rutas relativas para funcionar dentro
+de `/pdf-splitter-razon-social/`. El archivo `.nojekyll` desactiva el procesado
+de Jekyll. Las actualizaciones del código se descargan cuando vuelve a haber
+conexión y se aplican al cerrar las ventanas anteriores de la app. En cada
+publicación que cambie un recurso de la aplicación, incrementa la versión de
+`CACHE_NAME` en `sw.js` para renovar la caché de los dispositivos instalados.
 
 ## Qué PDFs admite
 
@@ -73,9 +92,14 @@ error, sin contenido del documento.
 ## Privacidad y funcionamiento offline
 
 - Bibliotecas, estilos e iconos están incluidos en la carpeta.
-- No hay llamadas de red, CDN, analítica ni telemetría.
-- La política del HTML bloquea conexiones externas (`connect-src 'none'`).
-- No se utilizan cookies, almacenamiento local, base de datos ni historial.
+- Los PDF, sus campos y los archivos generados no se envían a ningún servidor.
+- La versión instalada descarga únicamente los recursos estáticos de la app
+  al abrirse por primera vez y cuando se actualiza; no usa CDN ni telemetría.
+- El service worker guarda HTML, CSS, JavaScript, bibliotecas e iconos en la
+  caché del navegador para abrir la app sin conexión. No guarda documentos.
+- La política del HTML bloquea conexiones externas de la app (`connect-src 'none'`).
+- No se utilizan cookies, almacenamiento local de documentos, base de datos
+  ni historial de archivos procesados.
 - Solo las descargas que solicites se guardan como archivos.
 
 Mantén `index.html`, `styles.css`, `app.js` y las carpetas `lib`, `services` y
@@ -85,6 +109,8 @@ Mantén `index.html`, `styles.css`, `app.js` y las carpetas `lib`, `services` y
 
 ```text
 index.html / styles.css / app.js    Interfaz y estados
+manifest.webmanifest / icons/      Identidad e instalación de la PWA
+sw.js / .nojekyll                  Caché offline y publicación estática
 services/pdf-reader.js             Validación y apertura del PDF
 services/field-extractor.js        Campos, páginas y agrupación
 services/pdf-splitter.js           Contenido fijo y documentos resultantes
@@ -96,8 +122,9 @@ tests/                            Pruebas y PDFs sintéticos en memoria
 PRODUCT.md                        Especificación funcional del producto
 ```
 
-Scripts clásicos con `defer`, compatibles con `file://`; no hay compilación ni
-framework de interfaz. Dependencias de ejecución: **pdf-lib 1.17.1** y
+Scripts clásicos con `defer`, compatibles con `file://`; el service worker solo
+se registra desde un origen seguro HTTP(S). No hay compilación ni framework de
+interfaz. Dependencias de ejecución: **pdf-lib 1.17.1** y
 **JSZip 3.10.2**. Su procedencia y licencias están en `lib/LICENSES.txt`.
 
 Los documentos se generan secuencialmente y se reutilizan en descargas posteriores.
@@ -120,11 +147,13 @@ No requiere instalar paquetes. Las pruebas utilizan las bibliotecas incluidas y
 generan PDFs sintéticos en memoria. Comprueban agrupación, apariencias, nombres,
 errores, orden de páginas y la reapertura de los PDFs y del ZIP.
 
-La prueba de navegador real está en `tests/browser-smoke.cjs`. Su instalación de
-herramientas temporal y ejecución se explican en
-[`tests/browser-README.md`](tests/browser-README.md). Abre `index.html` mediante
-`file://` con el navegador offline y comprueba descargas reales, arrastre,
-teclado, diseño responsive, ausencia de red y documentos de 300 páginas.
+Las pruebas de navegador están en `tests/browser-smoke.cjs` (modo `file://`) y
+`tests/pwa-smoke.cjs` (instalación y modo offline desde un servidor local). Su
+instalación de herramientas temporal y ejecución se explican en
+[`tests/browser-README.md`](tests/browser-README.md). La primera comprueba
+descargas reales, arrastre, teclado, diseño responsive, ausencia de red y
+documentos de 300 páginas. La segunda comprueba la instalación y la generación
+de un ZIP sin conexión desde una ruta equivalente a GitHub Pages.
 
 Verificación inicial: 31 pruebas de servicios y 16 escenarios de navegador
 superados en Node.js 22.22.3 y Chromium 153.0.8010.12. Los documentos iniciales de

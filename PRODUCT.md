@@ -3,8 +3,9 @@
 ## 1. Nombre provisional
 
 Aplicación web local y portable para fragmentar un PDF en documentos independientes
-según la razón social detectada en sus páginas. Se abre mediante `index.html` y
-no requiere instalación, servidor, backend ni Internet.
+según la razón social detectada en sus páginas. Puede abrirse mediante `index.html`
+sin instalación ni servidor, o instalarse como PWA desde GitHub Pages. No requiere
+backend ni Internet para procesar documentos.
 
 ## 2. Objetivo del producto
 
@@ -15,9 +16,10 @@ servidores externos.
 
 ## 3. Principios
 
-Simplicidad, privacidad, portabilidad, funcionamiento offline, cero instalación,
-cero configuración para el uso habitual, interfaz mínima y código mantenible.
-La distribución es una carpeta con HTML, CSS, JavaScript y bibliotecas locales.
+Simplicidad, privacidad, portabilidad, funcionamiento offline, instalación
+opcional, cero configuración para el uso habitual, interfaz mínima y código
+mantenible. La distribución es una carpeta con HTML, CSS, JavaScript y
+bibliotecas locales.
 
 ## 4. Usuario objetivo
 
@@ -147,13 +149,14 @@ un motivo técnico interno. Detectar XFA antes de acceder al formulario mediante
 ## 21. Privacidad
 
 PDF original, campos, razones sociales y documentos generados permanecen en memoria.
-Sin `fetch`, XMLHttpRequest, WebSocket, APIs externas, telemetría, analítica ni
-almacenamiento persistente de documentos.
+Sin peticiones de la app a APIs externas, telemetría, analítica ni almacenamiento
+persistente de documentos. La PWA solo almacena recursos estáticos en CacheStorage.
 
 ## 22. Offline
 
-Todas las dependencias están incluidas localmente. Sin scripts CDN, fuentes
-externas ni recursos que requieran Internet. Debe funcionar mediante `file://`.
+Todas las dependencias están incluidas localmente. Sin scripts CDN ni fuentes
+externas. Debe funcionar mediante `file://` y, después de la primera visita
+HTTPS, como PWA instalada sin conexión.
 
 ## 23. Stack
 
@@ -179,6 +182,9 @@ URLs temporales cuando ya no se necesiten y al cambiar de documento.
 index.html
 styles.css
 app.js
+manifest.webmanifest
+sw.js
+icons/
 services/
   pdf-reader.js
   field-extractor.js
@@ -258,7 +264,7 @@ información no aparecerá en la interfaz habitual ni incluirá valores de campo
 
 Selección, arrastre, lectura, identificación de razón social, agrupación, generación
 de PDFs, listado de empresas, descarga individual y ZIP, procesamiento local y
-funcionamiento offline.
+funcionamiento offline e instalación opcional desde HTTPS.
 
 ## 38. Fuera del MVP
 
@@ -286,9 +292,9 @@ crea documentos y los descarga.
 
 ## 42. Criterios de éxito
 
-Un usuario no técnico puede abrir `index.html`, arrastrar un PDF, pulsar un botón,
-recibir un ZIP y abrir correctamente los PDFs. Sin instalar software, abrir una
-terminal, ejecutar comandos, configurar Node.js/Python ni utilizar Internet.
+Un usuario no técnico puede abrir `index.html` o instalar la app desde su URL
+HTTPS, arrastrar un PDF, pulsar un botón, recibir un ZIP y abrir correctamente
+los PDFs. No necesita terminal ni configurar Node.js/Python para utilizarla.
 
 La verificación incluye PDFs sintéticos mientras no haya un ejemplo real
 anonimizado disponible, reapertura de resultados y pruebas de navegador offline.
